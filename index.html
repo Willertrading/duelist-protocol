@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Duelist Protocol</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background: #050505;
+      color: #8cff9b;
+      font-family: "Courier New", Courier, monospace;
+      padding: 24px;
+    }
+
+    .panel {
+      width: min(700px, 100%);
+      border: 1px solid #2e6b37;
+      box-shadow: 0 0 18px rgba(140, 255, 155, 0.12);
+      padding: 28px;
+      background: rgba(10, 20, 10, 0.9);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      letter-spacing: 0.08em;
+    }
+
+    .sub {
+      color: #b7ffbe;
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      font: inherit;
+      background: #081008;
+      color: #d8ffdd;
+      border: 1px solid #3e8a49;
+      outline: none;
+    }
+
+    input:focus {
+      box-shadow: 0 0 0 2px rgba(140, 255, 155, 0.15);
+    }
+
+    .actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 10px 16px;
+      font: inherit;
+      cursor: pointer;
+      border: 1px solid #3e8a49;
+      background: #0e1b0f;
+      color: #d8ffdd;
+    }
+
+    button:hover {
+      background: #132715;
+    }
+
+    .output {
+      margin-top: 22px;
+      padding: 16px;
+      min-height: 90px;
+      border: 1px dashed #2e6b37;
+      white-space: pre-line;
+      color: #d8ffdd;
+    }
+
+    .hint {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      color: #9fe5a7;
+    }
+
+    .small {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: #72b67b;
+    }
+  </style>
+</head>
+<body>
+  <main class="panel">
+    <h1>DUELIST PROTOCOL</h1>
+    <div class="sub">Authentication required.</div>
+
+    <label for="keyInput">Enter authentication key:</label>
+    <input
+      id="keyInput"
+      type="text"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="Enter key"
+    />
+
+    <div class="actions">
+      <button id="enterBtn">ENTER</button>
+      <button id="clearBtn" type="button">CLEAR</button>
+    </div>
+
+    <div id="output" class="output">Awaiting input...</div>
+
+    <div class="hint">
+      Fragments alone are useless.
+    </div>
+
+    <div class="small">
+      If you know where to look, the path will reveal itself.
+    </div>
+  </main>
+
+  <script>
+    const correctKey = "protocol"; // change this if you want a different key
+    const output = document.getElementById("output");
+    const keyInput = document.getElementById("keyInput");
+    const enterBtn = document.getElementById("enterBtn");
+    const clearBtn = document.getElementById("clearBtn");
+
+    function normalize(value) {
+      return value.trim().toLowerCase();
+    }
+
+    function checkKey() {
+      const entered = normalize(keyInput.value);
+
+      if (!entered) {
+        output.textContent = "No key detected.";
+        return;
+      }
+
+      if (entered === correctKey) {
+        output.textContent =
+`ACCESS GRANTED
+
+Complete the coordinates using what you have earned.
+
+N 40.1_5
+W 83._2_
+
+Final search radius: 20 feet.`;
+      } else {
+        output.textContent = "ACCESS DENIED";
+      }
+    }
+
+    enterBtn.addEventListener("click", checkKey);
+
+    keyInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        checkKey();
+      }
+    });
+
+    clearBtn.addEventListener("click", () => {
+      keyInput.value = "";
+      output.textContent = "Awaiting input...";
+      keyInput.focus();
+    });
+
+    console.log("The answer is not hidden here. Or is it?");
+  </script>
+</body>
+</html>
